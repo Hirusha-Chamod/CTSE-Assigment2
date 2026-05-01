@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.hypothesis/
+venv/
+.venv/
+env/
+
+# Local data
+*.db
+*.sqlite
+*.sqlite3
+logs/*.log
+outputs/*.md
+outputs/*.json
+!outputs/.gitkeep
+!logs/.gitkeep
+
+# IDE
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
