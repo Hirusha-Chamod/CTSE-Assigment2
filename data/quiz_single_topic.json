@@ -1,0 +1,10 @@
+{
+  "student": "Hannah",
+  "answers": [
+    { "topic": "Photosynthesis", "correct": false },
+    { "topic": "Photosynthesis", "correct": false },
+    { "topic": "Photosynthesis", "correct": true  },
+    { "topic": "Photosynthesis", "correct": false },
+    { "topic": "Photosynthesis", "correct": true  }
+  ]
+}

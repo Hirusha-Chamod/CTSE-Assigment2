@@ -1,0 +1,17 @@
+{
+  "student": "Diana",
+  "answers": [
+    { "topic": "World War I",        "correct": true  },
+    { "topic": "World War I",        "correct": true  },
+    { "topic": "World War I",        "correct": false },
+    { "topic": "The Renaissance",    "correct": true  },
+    { "topic": "The Renaissance",    "correct": true  },
+    { "topic": "The Renaissance",    "correct": true  },
+    { "topic": "The Renaissance",    "correct": true  },
+    { "topic": "Ancient Rome",       "correct": false },
+    { "topic": "Ancient Rome",       "correct": false },
+    { "topic": "Ancient Rome",       "correct": false },
+    { "topic": "The Cold War",       "correct": true  },
+    { "topic": "The Cold War",       "correct": false }
+  ]
+}

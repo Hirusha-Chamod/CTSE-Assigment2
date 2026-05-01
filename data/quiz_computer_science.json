@@ -1,0 +1,17 @@
+{
+  "student": "Carol",
+  "answers": [
+    { "topic": "Binary Trees",       "correct": true  },
+    { "topic": "Binary Trees",       "correct": true  },
+    { "topic": "Binary Trees",       "correct": false },
+    { "topic": "Sorting Algorithms", "correct": true  },
+    { "topic": "Sorting Algorithms", "correct": true  },
+    { "topic": "Sorting Algorithms", "correct": true  },
+    { "topic": "Operating Systems",  "correct": false },
+    { "topic": "Operating Systems",  "correct": false },
+    { "topic": "Operating Systems",  "correct": false },
+    { "topic": "Operating Systems",  "correct": false },
+    { "topic": "Networking",         "correct": true  },
+    { "topic": "Networking",         "correct": false }
+  ]
+}

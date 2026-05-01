@@ -1,0 +1,15 @@
+{
+  "student": "Kevin",
+  "_comment": "Calculus and Statistics both score 0% — tie broken by question count (Calculus has more answers so more evidence it is weak)",
+  "answers": [
+    { "topic": "Calculus",       "correct": false },
+    { "topic": "Calculus",       "correct": false },
+    { "topic": "Calculus",       "correct": false },
+    { "topic": "Statistics",     "correct": false },
+    { "topic": "Statistics",     "correct": false },
+    { "topic": "Linear Algebra", "correct": true  },
+    { "topic": "Linear Algebra", "correct": true  },
+    { "topic": "Probability",    "correct": true  },
+    { "topic": "Probability",    "correct": false }
+  ]
+}

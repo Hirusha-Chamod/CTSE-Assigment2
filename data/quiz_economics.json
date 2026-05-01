@@ -1,0 +1,17 @@
+{
+  "student": "George",
+  "answers": [
+    { "topic": "Supply and Demand",    "correct": true  },
+    { "topic": "Supply and Demand",    "correct": true  },
+    { "topic": "Supply and Demand",    "correct": true  },
+    { "topic": "Inflation",            "correct": false },
+    { "topic": "Inflation",            "correct": false },
+    { "topic": "Inflation",            "correct": true  },
+    { "topic": "Macroeconomics",       "correct": false },
+    { "topic": "Macroeconomics",       "correct": false },
+    { "topic": "Macroeconomics",       "correct": false },
+    { "topic": "International Trade",  "correct": true  },
+    { "topic": "International Trade",  "correct": true  },
+    { "topic": "International Trade",  "correct": false }
+  ]
+}
