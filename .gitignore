@@ -23,6 +23,10 @@ outputs/*.json
 .idea/
 *.swp
 
+# Node (report generator)
+node_modules/
+package-lock.json
+
 # OS
 .DS_Store
 Thumbs.db
