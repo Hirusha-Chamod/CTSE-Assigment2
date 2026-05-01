@@ -1,15 +1,9 @@
-"""Evaluation script for the Gap Analyst Agent — owned by Reshan.
 
-Three layers:
-  1. Tool tests on `fetch_wikipedia_summary` (network-mocked + edge cases).
-  2. Mocked-LLM unit test on the agent node.
-  3. Live LLM-as-a-Judge test (skipped unless EDUMAS_LIVE=1).
-"""
 from __future__ import annotations
 
 from unittest.mock import patch
 
-import pytest
+import pytest # type: ignore
 
 from agents.gap_analyst_agent import run_gap_analyst_agent
 from tools.wiki_tool import WikiToolError, fetch_wikipedia_summary

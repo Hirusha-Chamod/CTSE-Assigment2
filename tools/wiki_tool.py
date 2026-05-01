@@ -1,10 +1,4 @@
-"""Wikipedia tool — owned by Reshan (Gap Analyst Agent).
 
-Fetches a concise summary for an educational topic from the public
-Wikipedia REST API. The Gap Analyst feeds the returned text directly
-into its system prompt, so the tool deliberately strips the topic
-of characters that would break the URL path.
-"""
 from __future__ import annotations
 
 from typing import Optional

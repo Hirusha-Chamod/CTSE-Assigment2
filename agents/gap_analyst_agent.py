@@ -1,14 +1,4 @@
-"""Gap Analyst Agent — owned by Reshan.
 
-Persona: Educational Curriculum Researcher.
-Responsibility: Take the weak topic identified by the Assessment Agent,
-fetch a Wikipedia summary via `wiki_tool`, and synthesize a concise
-3-bullet "knowledge brief" that downstream agents can consume.
-
-Key constraints in the system prompt:
-  * Use ONLY the supplied Wikipedia text — no prior-knowledge embellishment.
-  * Output exactly 3 bullet points, no preamble, no closing remarks.
-"""
 from __future__ import annotations
 
 from core.llm import ollama_chat
