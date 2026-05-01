@@ -77,7 +77,20 @@ Encoding all four responsibilities in one LLM call degrades output quality and d
 | Logging | Python `logging` + `RotatingFileHandler` | Every tool call and LLM invocation recorded in `logs/run.log` |
 | Testing | pytest + `hypothesis` | Property-based tool tests + LLM-as-a-Judge agent tests |
 
-### 2.3 Project Layout
+### 2.3 Ollama Integration & LLM Dependency
+
+All four agents call Ollama, but with very different levels of dependency on it. The tools themselves **never** call Ollama — they are pure Python (file I/O, public API, SQLite, file writing).
+
+| Agent | Uses Ollama for | Core logic without Ollama |
+|---|---|---|
+| **AssessmentAgent** | One-sentence rationale only | The weak topic is still identified correctly — that is pure Python maths in `quiz_parser_tool`. Ollama only adds a human-readable "why" sentence. |
+| **GapAnalystAgent** | Compressing the Wikipedia text into 3 bullets | Pipeline fails — the knowledge brief is the primary output of this agent. |
+| **QuestionGeneratorAgent** | Generating the 5 Q/A pairs as a JSON array | Pipeline fails — no questions means nothing to save to SQLite. |
+| **StudyPlannerAgent** | Writing the entire 7-day plan body | Pipeline fails — no plan body means no file written to disk. |
+
+**Key design insight:** The AssessmentAgent deliberately minimises LLM involvement — topic selection is deterministic so hallucination cannot distort what the rest of the pipeline studies. The three downstream agents are LLM-heavy by necessity; their outputs are creative/generative by nature. If Ollama is not running, the pipeline will fail at the AssessmentAgent's rationale step and nothing downstream will execute. All four agents require `ollama serve` to be active for a complete run.
+
+### 2.4 Project Layout
 
 ```
 .
