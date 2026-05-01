@@ -33,6 +33,7 @@ class StudyState(TypedDict, total=False):
     practice_questions: List[PracticeQuestion]
     study_plan: str
     study_plan_path: str
+    study_plan_pdf_path: str
     logs: List[str]
 
 
@@ -46,5 +47,6 @@ def init_state(quiz_path: str) -> StudyState:
         practice_questions=[],
         study_plan="",
         study_plan_path="",
+        study_plan_pdf_path="",
         logs=[],
     )

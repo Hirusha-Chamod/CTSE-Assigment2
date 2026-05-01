@@ -3,8 +3,8 @@
 Persona: Senior Study Planner.
 Responsibility: Take everything in StudyState (weak topic, brief, Q/A
 pairs) and produce a structured 7-day study plan, then write it to
-disk via `study_plan_writer_tool`. The file path is stored back into
-StudyState so the user can be told where the deliverable landed.
+disk as both a Markdown and a PDF file via `study_plan_writer_tool`.
+Both file paths are stored back into StudyState.
 """
 from __future__ import annotations
 
@@ -42,7 +42,7 @@ def _format_questions(state: StudyState) -> str:
 
 
 def run_study_planner_agent(state: StudyState) -> StudyState:
-    """LangGraph node: generate the 7-day plan and write it to outputs/."""
+    """LangGraph node: generate the 7-day plan and write it to outputs/ as MD + PDF."""
     topic = state.get("weak_topic")
     brief = state.get("knowledge_brief")
     if not topic:
@@ -66,7 +66,7 @@ def run_study_planner_agent(state: StudyState) -> StudyState:
         temperature=0.3,
     )
 
-    output_path = write_study_plan(
+    paths = write_study_plan(
         topic=topic,
         knowledge_brief=brief,
         practice_questions=list(state.get("practice_questions") or []),
@@ -74,10 +74,14 @@ def run_study_planner_agent(state: StudyState) -> StudyState:
     )
 
     logs = list(state.get("logs", []))
-    logs.append(f"[{_AGENT_NAME}] plan_chars={len(plan_body)} path={output_path}")
+    logs.append(
+        f"[{_AGENT_NAME}] plan_chars={len(plan_body)} "
+        f"md={paths['md_path']} pdf={paths['pdf_path']}"
+    )
 
     return {
         "study_plan": plan_body,
-        "study_plan_path": output_path,
+        "study_plan_path": paths["md_path"],
+        "study_plan_pdf_path": paths["pdf_path"],
         "logs": logs,
     }
