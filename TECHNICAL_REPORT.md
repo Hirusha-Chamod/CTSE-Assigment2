@@ -195,7 +195,68 @@ All four agents are implemented as **LangGraph nodes**: Python functions that re
 
 ---
 
-### 3.5 Interaction Strategy
+### 3.5 How the Four Agents Connect
+
+The agents do not communicate directly with each other. They connect through a single shared `StudyState` dictionary — each agent reads only what it needs and writes only its own fields. LangGraph controls whose turn it is.
+
+```
+main.py creates:
+StudyState = { quiz_path: "data/sample_quiz.json", everything else empty }
+                        │
+                        ▼
+          ┌─────────────────────────┐
+          │     AssessmentAgent     │
+          │  reads:  quiz_path      │
+          │  writes: weak_topic     │  ←  e.g. "Calculus"
+          │          student_input  │
+          └─────────────────────────┘
+                        │  full StudyState passed forward
+                        ▼
+          ┌─────────────────────────┐
+          │     GapAnalystAgent     │
+          │  reads:  weak_topic     │
+          │  writes: knowledge_brief│  ←  3-bullet Wikipedia summary
+          └─────────────────────────┘
+                        │
+                        ▼
+          ┌──────────────────────────────┐
+          │   QuestionGeneratorAgent     │
+          │  reads:  weak_topic          │
+          │          knowledge_brief     │
+          │  writes: practice_questions  │  ←  5 Q/A pairs (also → SQLite)
+          └──────────────────────────────┘
+                        │
+                        ▼
+          ┌──────────────────────────────┐
+          │      StudyPlannerAgent       │
+          │  reads:  weak_topic          │
+          │          knowledge_brief     │
+          │          practice_questions  │
+          │  writes: study_plan          │  ←  7-day plan (also → .md file)
+          │          study_plan_path     │
+          └──────────────────────────────┘
+                        │
+                        ▼
+                   final StudyState
+```
+
+**Three things make this work:**
+
+1. **`StudyState` is cumulative** — each agent only adds its own fields, never deletes or overwrites what came before. By the time `StudyPlannerAgent` runs it can see everything every previous agent wrote.
+
+2. **LangGraph enforces the order** — the edges defined in `main.py` control who runs after who:
+   ```python
+   graph.add_edge(START,               "assessment")
+   graph.add_edge("assessment",        "gap_analyst")
+   graph.add_edge("gap_analyst",       "question_generator")
+   graph.add_edge("question_generator","study_planner")
+   graph.add_edge("study_planner",      END)
+   ```
+   LangGraph calls each node function in that sequence, merging the returned partial dict back into the state after each step.
+
+3. **Fail-fast guards** — every agent checks that its required input key is present. If `GapAnalystAgent` receives an empty `weak_topic` it raises a `ValueError` immediately rather than silently passing bad data forward.
+
+### 3.6 Interaction Strategy
 
 The pipeline is **strictly sequential with no back-edges**. This was a deliberate design decision: SLMs running locally on limited VRAM cannot reliably implement conditional routing or self-correction loops without significantly increasing hallucination risk. A linear pipeline lets each agent specialize narrowly and receive a fully-formed context from its predecessor.
 
