@@ -9,12 +9,16 @@ from __future__ import annotations
 import json
 import os
 import tempfile
+from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from main import run
+
+_OUTPUTS_DIR = (Path(__file__).resolve().parent.parent / "outputs").resolve()
 
 app = FastAPI(title="EduMAS API", version="1.0.0")
 
@@ -43,6 +47,16 @@ class RunResponse(BaseModel):
 @app.get("/api/health")
 def health():
     return {"status": "ok"}
+
+
+@app.get("/api/pdf")
+def get_pdf(path: str = Query(..., description="Absolute path to the PDF file")):
+    p = Path(path).resolve()
+    if not str(p).startswith(str(_OUTPUTS_DIR)):
+        raise HTTPException(status_code=403, detail="Access denied")
+    if not p.exists() or p.suffix != ".pdf":
+        raise HTTPException(status_code=404, detail="PDF not found")
+    return FileResponse(str(p), media_type="application/pdf", filename=p.name)
 
 
 @app.post("/api/run", response_model=RunResponse)
