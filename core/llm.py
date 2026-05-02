@@ -16,7 +16,7 @@ from core.logger import get_logger
 
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
 DEFAULT_MODEL = os.environ.get("OLLAMA_MODEL", "llama3:8b")
-DEFAULT_TIMEOUT = int(os.environ.get("OLLAMA_TIMEOUT", "120"))
+DEFAULT_TIMEOUT = int(os.environ.get("OLLAMA_TIMEOUT", "500"))
 
 _logger = get_logger("llm")
 
