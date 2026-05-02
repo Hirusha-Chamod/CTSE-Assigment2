@@ -61,8 +61,12 @@ class _JobLogHandler(logging.Handler):
 
 _log_handler = _JobLogHandler()
 _log_handler.setFormatter(logging.Formatter("[%(name)s] %(message)s"))
-logging.getLogger().addHandler(_log_handler)
-logging.getLogger().setLevel(logging.INFO)
+
+# The edumas logger has propagate=False (see core/logger.py) so the root logger
+# never sees these records. Attach our handler directly to the edumas hierarchy.
+# core/logger._ensure_setup() is triggered by `from main import run` above,
+# so the logger already exists by this point.
+logging.getLogger("edumas").addHandler(_log_handler)
 
 # ---------------------------------------------------------------------------
 # Constants
